@@ -1,6 +1,6 @@
 # Todo
 
-##Change name in:
+## Change name in:
 ````
     ./package.json
     ./public/manifest.json
