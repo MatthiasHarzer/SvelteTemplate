@@ -1,3 +1,45 @@
+@font-face {
+    font-family: Karla;
+    src: url(Karla.ttf);
+}
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(icon_font/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+    /*noinspection CssNoGenericFontName*/
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+    color: white;
+}
+
+
 :root {
     --click-color: rgb(77, 152, 218);
     --greyed: rgb(179, 179, 179);
@@ -55,10 +97,6 @@
     transition: color 0.3s ease-in-out;
 }
 
-@font-face {
-    font-family: Karla;
-    src: url(Karla.ttf);
-}
 
 html, body {
     position: relative;
@@ -179,22 +217,23 @@ button:focus {
 }
 
 ::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    background: transparent;
-    display: none;
+    /*width: 0;*/
+    /*height: 0;*/
+    /*background: transparent;*/
+    /*display: none;*/
+    /*background-color: #696969;*/
 }
 
 ::-webkit-scrollbar-thumb {
     /*background: darkgray;*/
     /*border-radius: 100px;*/
-    width: 0;
-    height: 0;
+    /*width: 0;*/
+    /*height: 0;*/
 }
 
 ::-webkit-scrollbar-corner {
-    height: 0;
-    background: transparent;
+    /*height: 0;*/
+    /*background: transparent;*/
 }
 
 * {
@@ -236,6 +275,18 @@ button:focus {
     justify-content: center;
 }
 
+.blur-background > .dialog{
+    display: flex;
+    background-color: #3b3b3b;
+    flex-flow: column;
+    min-width: 500px;
+    min-height: 200px;
+    border-radius: 5px;
+    align-items: center;
+    position: relative;
+}
+
+
 main.light .blur-background {
     background-color: var(--light-blur-color);
 }
@@ -264,7 +315,7 @@ main.light .blur-background {
 
 }
 
-.dialog-wrapper h3 {
+.content h3, .dialog h3 {
 
     font-size: 22px;
     font-weight: 400;
@@ -392,8 +443,10 @@ button.material {
     position: relative;
 }
 
-
-button.material:before {
+button.material.text-button{
+    color: white;
+}
+button.material:before, button.material:after {
     content: "";
     display: block;
     width: 0;
@@ -408,24 +461,52 @@ button.material:before {
     opacity: 1;
     transition: all 0.2s;
 }
-button.material:not(.no-effect):active:before,
-button.material:not(.no-effect):hover:before {
+button.material:after{
+    opacity: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+}
+button.material.text-button:before, button.material.text-button:after{
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: inherit;
+}
+
+button.material:not(.no-effect):not(.text-button):active:before,
+button.material:not(.no-effect):not(.text-button):hover:before {
     opacity: 1;
     width: 110%;
     height: 110%;
 }
-button.material > *{
+button.material.text-button:not(.no-effect):active:before{
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    transition: all 0.2s;
+}
+button.material.text-button:not(.no-effect):hover:after{
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+button.material > * {
     position: relative;
 }
 
 
+
 /*Material icons*/
-.material-icons, .material-icons-outlined {
-    color: rgb(211, 211, 211);
-    background-color: transparent;
-    padding: 2px;
-    border-radius: 50%;
-}
+/*.material-icons, .material-icons-outlined {*/
+/*    color: rgb(211, 211, 211);*/
+/*    background-color: transparent;*/
+/*    padding: 2px;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+
 
 /*.material-icons.md-inactive { color: rgba(141, 141, 141, 0.26); }*/
 
@@ -448,6 +529,7 @@ button.material > *{
 .md-48 {
     font-size: 48px;
 }
+
 .md-56 {
     font-size: 56px;
 }
@@ -461,6 +543,79 @@ img {
     height: 24px;
 }
 
-.no-transition *{
+.no-transition * {
     transition: none !important;
+}
+
+
+.fancy-input{
+    position: relative;
+}
+.fancy-input input{
+    width: 100%;
+    color: white;
+    background-color: transparent;
+    border: none;
+    font-size: 17px;
+    border-radius: 0;
+    padding-bottom: 1px;
+    margin-bottom: 0;
+
+}
+/* .input label {
+    color: var(--greyed);
+} */
+.fancy-input label {
+    position: absolute;
+    top: 7px;
+    left: 5px;
+    transition: all 0.1s ease;
+    color: var(--greyed);
+    cursor: text;
+}
+
+.fancy-input input:focus ~ label,
+.fancy-input input:valid ~ label,
+.fancy-input label.active {
+    color: white;
+    top: -17px;
+    left: 0;
+    content: "Name";
+}
+
+/*A combined search and add user field*/
+.search-or-add-user{
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    height: 40px;
+
+    position: relative;
+}
+.search-or-add-user input{
+    flex: 1;
+    height: 100%;
+    color: white;
+    font-size: 20px;
+    padding: 5px 5px 5px 15px;
+    background-color: #575757;
+    border-radius: 5px;
+}
+.search-or-add-user .spacer{
+    height: 100%;
+    margin: 0 5px;
+}
+.search-or-add-user button{
+    background-color: #43b643;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    height: 100%;
+}
+
+
+.header button.close-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
